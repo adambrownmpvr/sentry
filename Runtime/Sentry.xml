@@ -222,6 +222,58 @@
             Platform key that defines an events is coming from any .NET implementation.
             </summary>
         </member>
+        <member name="T:Sentry.DebugImage">
+            <summary>
+            The Sentry Debug Meta Images interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
+        </member>
+        <member name="P:Sentry.DebugImage.Type">
+            <summary>
+            Type of the debug image.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.ImageAddress">
+            <summary>
+            Memory address, at which the image is mounted in the virtual address space of the process.
+            Should be a string in hex representation prefixed with "0x".
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.ImageSize">
+            <summary>
+            The size of the image in virtual memory.
+            If missing, Sentry will assume that the image spans up to the next image, which might lead to invalid stack traces.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.DebugId">
+            <summary>
+            Unique debug identifier of the image.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.DebugFile">
+            <summary>
+            Path and name of the debug companion file.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.CodeId">
+            <summary>
+            Optional identifier of the code file.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.CodeFile">
+            <summary>
+            The absolute path to the dynamic library or executable.
+            This helps to locate the file if it is missing on Sentry.
+            </summary>
+        </member>
+        <member name="M:Sentry.DebugImage.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.DebugImage.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
         <member name="T:Sentry.DeduplicateMode">
             <summary>
             Possible modes of dropping events that are detected to be duplicates.
@@ -343,6 +395,9 @@
         <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
             <inheritdoc />
         </member>
@@ -370,6 +425,13 @@
             <summary>
             Deserializes envelope from stream.
             </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.WithItem(Sentry.Protocol.Envelopes.EnvelopeItem)">
+            <summary>
+            Creates a new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> starting from the current one and appends the <paramref name="item"/> given.
+            </summary>
+            <param name="item">The <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> to append.</param>
+            <returns>A new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> with the same headers and items, including the new <paramref name="item"/>.</returns>
         </member>
         <member name="T:Sentry.Protocol.Envelopes.EnvelopeItem">
             <summary>
@@ -410,32 +472,40 @@
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Dispose">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromEvent(Sentry.SentryEvent)">
             <summary>
-            Creates an envelope item from an event.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="event"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromUserFeedback(Sentry.UserFeedback)">
             <summary>
-            Creates an envelope item from user feedback.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sentryUserFeedback"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
             <summary>
-            Creates an envelope item from transaction.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="transaction"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
             <summary>
-            Creates an envelope item from a session update.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sessionUpdate"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.Attachment)">
             <summary>
-            Creates an envelope item from attachment.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="attachment"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromClientReport(Sentry.Internal.ClientReport)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="report"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
@@ -450,7 +520,12 @@
         </member>
         <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <summary>
-            Serializes the object to a stream.
+            Serializes the object to a stream asynchronously.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.ISerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Serializes the object to a stream synchronously.
             </summary>
         </member>
         <member name="T:Sentry.Protocol.Envelopes.JsonSerializable">
@@ -471,6 +546,9 @@
         <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.Protocol.Envelopes.StreamSerializable">
             <summary>
             Represents an object which is already serialized as a stream.
@@ -487,6 +565,9 @@
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Dispose">
@@ -1423,6 +1504,14 @@
             In .NET this means the IL Offset within the assembly.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryStackFrame.AddressMode">
+            <summary>
+            Optionally changes the addressing mode. The default value is the same as
+            `"abs"` which means absolute referencing. This can also be set to
+            `"rel:DEBUG_ID"` or `"rel:IMAGE_INDEX"` to make addresses relative to an
+            object referenced by debug id or index.
+            </summary>
+        </member>
         <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -2244,9 +2333,75 @@
             <summary>
             Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
             </summary>
+            <param name="filePath">The path to the file to attach.</param>
+        </member>
+        <member name="M:Sentry.FileAttachmentContent.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
+            </summary>
+            <param name="filePath">The path to the file to attach.</param>
+            <param name="readFileAsynchronously">Whether to use async file I/O to read the file.</param>
         </member>
         <member name="M:Sentry.FileAttachmentContent.GetStream">
             <inheritdoc />
+        </member>
+        <member name="T:Sentry.Http.HttpTransportBase">
+            <summary>
+            Provides a base class for Sentry HTTP transports.  Used internally by the Sentry SDK,
+            but also allows for higher-level SDKs (such as Unity) to implement their own transport.
+            </summary>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.#ctor(Sentry.SentryOptions,System.Func{System.String,System.String},Sentry.Infrastructure.ISystemClock)">
+            <summary>
+            Constructor for this class.
+            </summary>
+            <param name="options">The Sentry options.</param>
+            <param name="getEnvironmentVariable">An optional method used to read environment variables.</param>
+            <param name="clock">An optional system clock - used for testing.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.ProcessEnvelope(Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Processes an envelope before sending.
+            Repackages the original envelope discarding items that don't fit the rate limit.
+            </summary>
+            <param name="envelope">The envelope to process.</param>
+            <returns>The processed envelope, ready to be sent.</returns>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.CreateRequest(Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Creates an HTTP request message from an envelope.
+            </summary>
+            <param name="envelope">The envelope.</param>
+            <returns>An HTTP request message, with the proper headers and body set.</returns>
+            <exception cref="T:System.InvalidOperationException">Throws if the DSN is not set in the options.</exception>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.HandleResponse(System.Net.Http.HttpResponseMessage,Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Synchronously handles the response message after it is received, extracting any information from the
+            response such as rate limits, or error messages.
+            </summary>
+            <param name="response">The response message received from Sentry.</param>
+            <param name="envelope">The envelope that was being sent.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.HandleResponseAsync(System.Net.Http.HttpResponseMessage,Sentry.Protocol.Envelopes.Envelope,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously handles the response message after it is received, extracting any information from the
+            response such as rate limits, or error messages.
+            </summary>
+            <param name="response">The response message received from Sentry.</param>
+            <param name="envelope">The envelope that was being sent.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.ReadStreamFromHttpContent(System.Net.Http.HttpContent)">
+            <summary>
+            Reads a stream from an HTTP content object.
+            </summary>
+            <param name="content">The HTTP content object to read from.</param>
+            <returns>A stream of the content.</returns>
+            <remarks>
+            This is a helper method that allows higher-level APIs to serialize content synchronously
+            without exposing our custom <see cref="T:Sentry.Internal.Http.EnvelopeHttpContent"/> type.
+            </remarks>
         </member>
         <member name="T:Sentry.Http.ISentryHttpClientFactory">
             <summary>
@@ -2781,6 +2936,11 @@
             </summary>
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Internal.ClientReport.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.Constants">
             <summary>
             Internal Constant Values.
@@ -2881,6 +3041,18 @@
             <param name="cancellationToken">The cancellation token.</param>
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Internal.Http.HttpTransport.SendEnvelopeAsync(Sentry.Protocol.Envelopes.Envelope,System.Threading.CancellationToken)">
+            <summary>
+            Sends an envelope over this transport.
+            </summary>
+            <param name="envelope">The envelope to send.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <remarks>
+            This method implements the overarching workflow, but all features are implemented in the base class
+            such that they can be shared with higher-level SDKs (such as Unity) that may implement their own method
+            for performing HTTP transport.
+            </remarks>
+        </member>
         <member name="T:Sentry.Internal.Http.RetryAfterHandler">
             <summary>
             Retry After Handler which short-circuit requests following an HTTP 429.
@@ -2905,6 +3077,32 @@
             The task object representing the asynchronous operation.
             </returns>
             <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.RecordDiscardedEvent(Sentry.Internal.DiscardReason,Sentry.Internal.DataCategory)">
+            <summary>
+            Records one count of a discarded event, with the given <paramref name="reason"/> and <paramref name="category"/>.
+            </summary>
+            <param name="reason">The reason for the event being discarded.</param>
+            <param name="category">The data category of the event being discarded.</param>
+        </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.GenerateClientReport">
+            <summary>
+            Generates a <see cref="T:Sentry.Internal.ClientReport"/> containing counts of discarded events that have been recorded.
+            Also resets those counts to zero at the same time the report is generated.
+            </summary>
+            <returns>
+            The <see cref="T:Sentry.Internal.ClientReport"/>, as long as there is something to report.
+            Returns <c>null</c> if there were no discarded events recorded since the previous call to this method.
+            </returns>
+        </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.Load(Sentry.Internal.ClientReport)">
+            <summary>
+            Loads the current instance with the events from the provided <paramref name="report"/>.
+            </summary>
+            <remarks>
+            Useful when recovering from failures while sending client reports.
+            </remarks>
+            <param name="report">The client report to load.</param>
         </member>
         <member name="M:Sentry.Internal.IInternalSdkIntegration.Unregister(Sentry.IHub)">
             <summary>
@@ -2947,6 +3145,84 @@
             A converter that removes dangerous classes from being serialized,
             and, also formats some classes like Exception and Type.
             </summary>
+        </member>
+        <member name="T:Sentry.Internal.ThreadsafeCounterDictionary`1">
+            <summary>
+            Provides a keyed set of counters that can be incremented, read, and reset atomically.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.Add(`0,System.Int32)">
+            <summary>
+            Atomically adds to a counter based on the key provided, creating the counter if necessary.
+            </summary>
+            <param name="key">The key of the counter to increment.</param>
+            <param name="quantity">The amount to add to the counter.</param>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.Increment(`0)">
+            <summary>
+            Atomically increments a counter based on the key provided, creating the counter if necessary.
+            </summary>
+            <param name="key">The key of the counter to increment.</param>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ReadAndReset(`0)">
+            <summary>
+            Gets a single counter's value while atomically resetting it to zero.
+            </summary>
+            <param name="key">The key to the counter.</param>
+            <returns>The previous value of the counter.</returns>
+            <remarks>If no counter with the given key has been set, this returns zero.</remarks>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ReadAllAndReset">
+            <summary>
+            Gets the keys and values of all of the counters while atomically resetting them to zero.
+            </summary>
+            <returns>A read-only dictionary containing the key and the previous value for each counter.</returns>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.GetEnumerator">
+            <summary>
+            Gets an enumerator over the keys and values of the counters.
+            </summary>
+            <returns>An enumerator.</returns>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Count">
+            <summary>
+            Gets the number of counters currently being tracked.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ContainsKey(`0)">
+            <summary>
+            Tests whether or not a counter with the given key exists.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns>True if the counter exists, false otherwise.</returns>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.TryGetValue(`0,System.Int32@)">
+            <summary>
+            Gets the current value of the counter specified.
+            </summary>
+            <param name="key">The key of the counter.</param>
+            <param name="value">The value of the counter, or zero if the counter does not yet exist.</param>
+            <returns>Returns <c>true</c> in all cases.</returns>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Item(`0)">
+            <summary>
+            Gets the current value of the counter specified, returning zero if the counter does not yet exist.
+            </summary>
+            <param name="key">The key of the counter.</param>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Keys">
+            <summary>
+            Gets all of the current counter keys.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Values">
+            <summary>
+            Gets all of the current counter values.
+            </summary>
+            <remarks>
+            Useless, but required by the IReadOnlyDictionary interface.
+            </remarks>
         </member>
         <member name="T:Sentry.IScopeObserver">
             <summary>
@@ -4125,6 +4401,12 @@
             </summary>
             <see href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
         </member>
+        <member name="P:Sentry.SentryEvent.DebugImages">
+            <summary>
+            The Sentry Debug Meta Images interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
+        </member>
         <member name="P:Sentry.SentryEvent.Modules">
             <summary>
             A list of relevant modules and their versions.
@@ -4391,6 +4673,16 @@
             If true, the SDK's scope will be synced with the observed scope.
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.Transport">
+            <summary>
+            This holds a reference to the current transport, when one is active.
+            If set manually before initialization, the provided transport will be used instead of the default transport.
+            </summary>
+            <remarks>
+            If <seealso cref="P:Sentry.SentryOptions.CacheDirectoryPath"/> is set, any transport set here will be wrapped in a
+            <seealso cref="T:Sentry.Internal.Http.CachingTransport"/> and used as its inner transport.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.ExceptionProcessors">
             <summary>
             A list of exception processors
@@ -4468,7 +4760,7 @@
             Whether to report the <see cref="P:System.Environment.UserName"/> as the User affected in the event.
             </summary>
             <remarks>
-            This configuration is only relevant is <see cref="P:Sentry.SentryOptions.SendDefaultPii"/> is set to true.
+            This configuration is only relevant if <see cref="P:Sentry.SentryOptions.SendDefaultPii"/> is set to true.
             In environments like server applications this is set to false in order to not report server account names as user names.
             </remarks>
         </member>
@@ -4624,6 +4916,12 @@
             Sentry on-premise without a reverse-proxy, for example, does not support 'chunked' requests.
             </remarks>
             <see href="https://github.com/getsentry/sentry-dotnet/issues/71"/>
+        </member>
+        <member name="P:Sentry.SentryOptions.SendClientReports">
+            <summary>
+            Whether to send client reports, which contain statistics about discarded events.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/client-reports/"/>
         </member>
         <member name="P:Sentry.SentryOptions.HttpProxy">
             <summary>
@@ -4783,6 +5081,15 @@
             (desktop, mobile applications, but not web servers).
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.UseAsyncFileIO">
+            <summary>
+            Whether the SDK should attempt to use asynchronous file I/O.
+            For example, when reading a file to use as an attachment.
+            </summary>
+            <remarks>
+            This option should rarely be disabled, but is necessary in some environments such as Unity WebGL.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.CrashedLastRun">
             <summary>
             Delegate which is used to check whether the application crashed during last run.
@@ -4823,7 +5130,8 @@
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)">
             <summary>
-            Disables the capture of errors through <see cref="E:System.AppDomain.ProcessExit"/>
+            By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
+            This method disables that behaviour.
             </summary>
             <param name="options">The SentryOptions to remove the integration from.</param>
         </member>
@@ -4857,13 +5165,33 @@
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddInAppExclude(Sentry.SentryOptions,System.String)">
             <summary>
-            Add prefix to exclude from 'InApp' stack trace list.
+            Add prefix to exclude from 'InApp' stacktrace list.
             </summary>
+            <param name="options">The SentryOptions which holds the stacktrace list.</param>
+            <param name="prefix">The string used to filter the stacktrace to be excluded from InApp.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
+            </remarks>
+            <example>
+            'System.', 'Microsoft.'
+            </example>
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddInAppInclude(Sentry.SentryOptions,System.String)">
             <summary>
-            Add prefix to include as in 'InApp' stack trace.
+            Add prefix to include as in 'InApp' stacktrace.
             </summary>
+            <param name="options">The SentryOptions which holds the stacktrace list.</param>
+            <param name="prefix">The string used to filter the stacktrace to be included in InApp.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
+            </remarks>
+            <example>
+            'System.CustomNamespace', 'Microsoft.Azure.App'
+            </example>
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryEventExceptionProcessor)">
             <summary>
