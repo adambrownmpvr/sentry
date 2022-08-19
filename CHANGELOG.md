@@ -1,9 +1,119 @@
 # Changelog
 
+## 0.22.1
+
+### Fixes
+
+- iOS samples were missing the Objective-C plugin ([#921](https://github.com/getsentry/sentry-unity/pull/921))
+- Save SampleRate to Options.asset ([#916](https://github.com/getsentry/sentry-unity/pull/916))
+- Increase CLI file upload limit to 10 MiB ([#922](https://github.com/getsentry/sentry-unity/pull/922))
+
+### Features
+
+- Bump Cocoa SDK to v7.23.0 ([#918](https://github.com/getsentry/sentry-unity/pull/918))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7230)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.22.0...7.23.0)
+- Bump Java SDK to v6.3.1 ([#926](https://github.com/getsentry/sentry-unity/pull/926))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#631)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.3.0...6.3.1)
+- Bump Native SDK to v0.5.0 ([#924](https://github.com/getsentry/sentry-unity/pull/924))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#050)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.4.18...0.5.0)
+
+## 0.22.0
+
+### Fixes
+
+- Correctly byte-swap ELF build-ids ([#872](https://github.com/getsentry/sentry-unity/pull/872))
+- Wizard autoselects with only one option available ([#891](https://github.com/getsentry/sentry-unity/pull/891))
+- Reenabled IL2CPP line number support for mobile ([#902](https://github.com/getsentry/sentry-unity/pull/902))
+
+### Features
+
+- Added parameters to the options to control screenshot quality ([#912](https://github.com/getsentry/sentry-unity/pull/912))
+- Added highlights and info messages to editor configuration window ([#910](https://github.com/getsentry/sentry-unity/pull/910))
+- Added programmatic access to enable the experimental IL2CPP line numbers support ([#905](https://github.com/getsentry/sentry-unity/pull/905))
+- Bump Java SDK to v6.3.0 ([#887](https://github.com/getsentry/sentry-unity/pull/887), [#894](https://github.com/getsentry/sentry-unity/pull/894))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#630)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.1.4...6.3.0)
+- Bump CLI to v2.5.0 ([#889](https://github.com/getsentry/sentry-unity/pull/889), [#898](https://github.com/getsentry/sentry-unity/pull/898))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#250)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.3.1...2.5.0)
+- Bump Cocoa SDK to v7.22.0 ([#892](https://github.com/getsentry/sentry-unity/pull/892), [#909](https://github.com/getsentry/sentry-unity/pull/909))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7220)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.20.0...7.22.0)
+- Bump .NET SDK to v3.20.1 ([#907](https://github.com/getsentry/sentry-unity/pull/907), [#911](https://github.com/getsentry/sentry-unity/pull/911))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3201)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.19.0...3.20.1)
+
+## 0.21.0
+
+### Fixes
+
+- Fix ProGuard setup if build.gradle uses CRLF (Windows) line breaks ([#885](https://github.com/getsentry/sentry-unity/pull/885))
+
+### Features
+
+- Attach screenshots to native errors on iOS ([#878](https://github.com/getsentry/sentry-unity/pull/878))
+- Bump CLI to v2.3.1 ([#875](https://github.com/getsentry/sentry-unity/pull/875))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#231)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.3.0...2.3.1)
+- Bump Cocoa SDK to v7.20.0 ([#877](https://github.com/getsentry/sentry-unity/pull/877))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7200)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.19.0...7.20.0)
+
+## 0.20.1
+
+### Fixes
+
+- Explicitly disable Windows x86 native-error tracking and IL2CPP processing integration ([#871](https://github.com/getsentry/sentry-unity/pull/871))
+
+## 0.20.0
+
+### Features
+
+- Generate and upload IL2CPP line mappings alongside debug files ([#790](https://github.com/getsentry/sentry-unity/pull/790))
+- Launch a setup wizard after installation ([#780](https://github.com/getsentry/sentry-unity/pull/780))
+- Reduced automated screenshot attachment controls to a simple toggle ([#784](https://github.com/getsentry/sentry-unity/pull/784))
+- Disable AutoSessionTracking on unknown platforms ([#840](https://github.com/getsentry/sentry-unity/pull/840))
+- Support Android apps minified with Proguard ([#844](https://github.com/getsentry/sentry-unity/pull/844))
+- Bump Cocoa SDK to v7.19.0 ([#802](https://github.com/getsentry/sentry-unity/pull/802), [#821](https://github.com/getsentry/sentry-unity/pull/821), [#835](https://github.com/getsentry/sentry-unity/pull/835), [#854](https://github.com/getsentry/sentry-unity/pull/854), [#868](https://github.com/getsentry/sentry-unity/pull/868))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7190)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.16.0...7.19.0)
+- Bump .NET SDK to v3.19.0 ([#807](https://github.com/getsentry/sentry-unity/pull/807), [#860](https://github.com/getsentry/sentry-unity/pull/860))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3190)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.17.0...3.19.0)
+- Bump Java SDK to v6.1.4 ([#811](https://github.com/getsentry/sentry-unity/pull/811), [#820](https://github.com/getsentry/sentry-unity/pull/820), [#828](https://github.com/getsentry/sentry-unity/pull/828), [#847](https://github.com/getsentry/sentry-unity/pull/847), [#857](https://github.com/getsentry/sentry-unity/pull/857))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#614)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.0.0-1-gc62a9f7a...6.1.4)
+- Bump Native SDK to v0.4.18 ([#810](https://github.com/getsentry/sentry-unity/pull/810), [#824](https://github.com/getsentry/sentry-unity/pull/824))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0418)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.4.15-7-g9eecb1b...0.4.18)
+- Bump CLI to v2.3.0 ([#826](https://github.com/getsentry/sentry-unity/pull/826), [#867](https://github.com/getsentry/sentry-unity/pull/867))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#230)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/1.71.0...2.3.0)
+
+### Fixes
+
+- Only use application-not-responding detection in C#, disable in native plugins ([#852](https://github.com/getsentry/sentry-unity/pull/852))
+- The SDK no longer accesses the disk on unknown platforms (e.g. Switch) ([#865](https://github.com/getsentry/sentry-unity/pull/865))
+
+## 0.19.0
+
+### Features
+
+- Add rich context info to native crashes ([#747](https://github.com/getsentry/sentry-unity/pull/747))
+- Include build ID in an event release info ([#795](https://github.com/getsentry/sentry-unity/pull/795))
+
+### Fixes
+
+- Don't report Application-Not-Responding while the app is in the background ([#796](https://github.com/getsentry/sentry-unity/pull/796))
+
 ## 0.18.0
 
 ### Features
 
+- Capture Native Instruction Addrs for Exceptions ([#683](https://github.com/getsentry/sentry-unity/pull/683))
 - Enable native crash support with Mono scripting backend on Android, Windows and Linux ([#751](https://github.com/getsentry/sentry-unity/pull/751))
 - Application-Not-Responding detection ([#771](https://github.com/getsentry/sentry-unity/pull/771))
 - Allow uploading sources for debug files ([#773](https://github.com/getsentry/sentry-unity/pull/773))
